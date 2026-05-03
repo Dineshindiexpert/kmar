@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useMemo } from 'react';
-import { StaffData } from "@/data/StaffData";
+import { StaffData } from "@/data/Staffdata";
 import { Phone, Mail, MoreHorizontal, Search, ChevronDown } from 'lucide-react';
 
 export default function ConciergePage() {
