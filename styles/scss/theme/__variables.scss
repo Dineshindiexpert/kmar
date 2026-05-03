@@ -1,0 +1,16 @@
+// customize color according to the project theme
+// @import "../../node_modules/bootstrap/scss/functions";
+$prefix: "indixpert-" !default;
+$primary: #fbd58e !default;
+$secondary: #717579 !default;
+$success: #16B455 !default;
+$info: #0ea5e9 !default;
+$warning: #F66F4D !default;
+$danger: #EB564C !default;
+$light: #FDFDFD !default;
+$dark : #2D3134 !default;
+$white :#ffffff !default;
+
+
+// font family 
+$font-family-sans-serif: "Poppins", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
