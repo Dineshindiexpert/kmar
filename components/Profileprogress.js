@@ -7,7 +7,7 @@ export default function ProgressCircle({ progress = 100, image }) {
   const offset = circumference - (progress / 100) * circumference;
 
   return (
-    <div className="position-relative w-100" style={{ maxWidth: 200 }}>
+    <div className="position-relative w-100" style={{ maxWidth: 100 }}>
 
       {/* SVG */}
       <svg
@@ -56,7 +56,7 @@ export default function ProgressCircle({ progress = 100, image }) {
 
       {/* Edit Button */}
       <div
-        className="position-absolute bottom-0   rounded-circle d-flex align-items-center justify-content-center p-3"
+        className="position-absolute bottom-0   rounded-circle d-flex align-items-center justify-content-center p-2"
         style={{
           width: "35%",
           height: "35%",

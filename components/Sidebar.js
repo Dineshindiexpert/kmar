@@ -12,20 +12,15 @@ const Sidebar = ({ isOpen = true, onClose }) => {
     const pathname = usePathname();
 
     const [user, setUser] = useState(null);
+
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem("user"));
-
         if (storedUser?.id) {
             apiService.getUserById(storedUser.id)
-                .then((res) => {
-                    setUser(res.data);
-                })
-                .catch((err) => {
-                    console.error("Error fetching user:", err);
-                });
+                .then((res) => setUser(res.data))
+                .catch((err) => console.error(err));
         }
     }, []);
-
 
     const menuItems = [
         { id: 1, name: "Dashboard", icon: "/assets/icons/dashboard.svg", path: "/dashboard" },
@@ -36,15 +31,8 @@ const Sidebar = ({ isOpen = true, onClose }) => {
         { id: 6, name: "Settings", icon: "/assets/icons/Setting.svg", path: "/settings" },
     ];
 
-    const handleClick = (item) => {
-        router.push(item.path);
-
-        if (onClose) onClose();
-    };
-
     return (
         <>
-            {/* Overlay */}
             {onClose && isOpen && (
                 <div
                     className="position-fixed top-0 start-0 w-100 h-100 bg-dark"
@@ -54,40 +42,47 @@ const Sidebar = ({ isOpen = true, onClose }) => {
             )}
 
             <div
-                className={`bg-white vh-100 px-4 p-3 position-fixed top-0 start-0  
+                className={`bg-white px-3 py-2 position-fixed top-0 start-0 h-100 overflow-auto
                 ${onClose ? (isOpen ? "d-block" : "d-none") : ""}`}
-                style={{ zIndex: 1050, width: "300px" }}
+                style={{ zIndex: 1050, width: "250px" }}
             >
-
                 {/* LOGO */}
-                <div className="d-flex align-items-center gap-2 mb-4">
-                    <img src="/assets/icons/Logo.svg" alt="logo" />
-                    <img src="/assets/icons/kmarlogo.png" alt="logo" />
+                <div className="d-flex align-items-center gap-2 mb-3">
+                    <img src="/assets/icons/Logo.svg" width={28} />
+                    <img src="/assets/icons/kmarlogo.png" height={18} />
                 </div>
 
                 {/* PROFILE */}
-                <ProgressCircle progress={100} size={160} image={user?.image || "/assets/images/profile.jpg"} />
+                <ProgressCircle progress={100} size={42} image={user?.image || "/assets/images/profile.jpg"} />
 
-                <div className="mt-3">
-                    <p className="fs-4 fw-bold ms-3 mb-0">{user?.Name || "Alex Geovanny"}</p>
-                    <p className="fs-6 text-secondary ms-3">{user?.emailid || "alexgeov@mail.com"}</p>
+                <div className="mt-2">
+                    <p className="fw-bold mb-0" style={{ fontSize: "15px" }}>
+                        {user?.Name || "Alex Geovanny"}
+                    </p>
+                    <p className="text-secondary mb-0" style={{ fontSize: "13px" }}>
+                        {user?.emailid || "alexgeov@mail.com"}
+                    </p>
                 </div>
 
                 {/* MENU */}
-                <ul className="nav flex-column gap-2 fs-3 mt-4">
+                <ul className="nav flex-column gap-1 mt-3">
                     {menuItems.map((item) => {
                         const isActive = pathname === item.path;
 
                         return (
                             <li key={item.id}>
                                 <button
-                                    onClick={() => handleClick(item)}
-                                    className={`nav-link d-flex align-items-center gap-2 w-100 border-0 text-start p-2 rounded
+                                    onClick={() => {
+                                        router.push(item.path);
+                                        onClose && onClose();
+                                    }}
+                                    className={`nav-link d-flex align-items-center fs-4 gap-2 w-100 border-0 text-start px-2 py-1 rounded
                                     ${isActive ? "bg-primary text-danger" : "text-secondary"}`}
+                                    style={{ fontSize: "14px" }}
                                 >
                                     <img
                                         src={item.icon}
-                                        width={24}
+                                        width={20}
                                         style={{
                                             filter: isActive
                                                 ? "brightness(0) saturate(100%) invert(34%) sepia(80%) saturate(2000%) hue-rotate(330deg)"
@@ -99,35 +94,36 @@ const Sidebar = ({ isOpen = true, onClose }) => {
                             </li>
                         );
                     })}
+
                     <li>
-                        <Button className="w-100 mt-4" variant="outline-danger"
+                        <Button
+                            className="w-100 mt-2 py-1"
+                            variant="outline-danger"
+                            style={{ fontSize: "13px" }}
                             onClick={() => {
                                 localStorage.removeItem("token");
-                                document.cookie = "token=; path=/; max-age=0; SameSite=Lax";
+                                document.cookie = "token=; path=/; max-age=0";
                                 router.push("/signin");
                             }}
                         >
-                            <BsBoxArrowRight className="me-2 text-danger" />
+                            <BsBoxArrowRight className="me-1 text-danger" />
                             Sign Out
                         </Button>
                     </li>
                 </ul>
 
                 {/* FOOTER */}
-                <div className="mt-5 text-center">
-                    <p className="fw-bold" style={{ fontSize: "14px" }}>
+                <div className="mt-4 text-center">
+                    <p className="fw-bold mb-1" style={{ fontSize: "12px" }}>
                         Kamr Hotel Admin Dashboard
                     </p>
-
-                    <p className="text-secondary mb-1" style={{ fontSize: "12px" }}>
+                    <p className="text-secondary mb-0" style={{ fontSize: "10px" }}>
                         © 2021 All Rights Reserved
                     </p>
-
-                    <p className="text-secondary" style={{ fontSize: "12px" }}>
+                    <p className="text-secondary" style={{ fontSize: "10px" }}>
                         Made with <BsHeartFill className="text-danger" /> by Peterdraw
                     </p>
                 </div>
-
             </div>
         </>
     );

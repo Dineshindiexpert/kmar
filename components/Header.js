@@ -31,8 +31,8 @@ const DashboardHeader = () => {
             
             {/* LEFT: Title Section */}
             <div className="flex-grow-1">
-                <h2 className="fw-bold fs-1 fs-md-3 mb-0">{getTitle()}</h2>
-                <p className=" fs-4 text-muted d-none d-lg-block">
+                <h2 className="fw-bold fs-2 fs-md-3 mb-0">{getTitle()}</h2>
+                <p className=" fs-5 text-muted d-none d-lg-block">
                     Welcome to Kanri Modern Hotel Admin Dashboard
                 </p>
             </div>
