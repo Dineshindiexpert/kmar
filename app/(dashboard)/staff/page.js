@@ -6,17 +6,17 @@ import { Phone, Mail, MoreHorizontal, Search, ChevronDown } from 'lucide-react';
 export default function ConciergePage() {
   const [filter, setFilter] = useState('All Status');
   const [sortOrder, setSortOrder] = useState('Newest First');
-  const [searchTerm, setSearchTerm] = useState(''); 
+  const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
 
   const processedData = useMemo(() => {
     let data = [...StaffData];
 
-   
+
     if (searchTerm) {
-      data = data.filter(s => 
-        s.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      data = data.filter(s =>
+        s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         (s.empId && s.empId.toLowerCase().includes(searchTerm.toLowerCase())) ||
         s.id.toString().includes(searchTerm)
       );
@@ -24,7 +24,7 @@ export default function ConciergePage() {
 
     if (filter !== 'All Status') data = data.filter(s => s.status === filter);
 
-    
+
     data.sort((a, b) => {
       if (sortOrder === 'Newest First') return new Date(b.joinDate).getTime() - new Date(a.joinDate).getTime();
       if (sortOrder === 'Oldest First') return new Date(a.joinDate).getTime() - new Date(b.joinDate).getTime();
@@ -33,7 +33,7 @@ export default function ConciergePage() {
     });
 
     return data;
-  }, [filter, sortOrder, searchTerm]); 
+  }, [filter, sortOrder, searchTerm]);
 
   const currentItems = processedData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
   const totalPages = Math.ceil(processedData.length / itemsPerPage);
@@ -41,7 +41,7 @@ export default function ConciergePage() {
   return (
     <div className="w-100 min-vh-100 container-fluid" style={{ backgroundColor: "#FDFDFD", padding: "40px" }}>
 
-     
+
       <div className="d-flex flex-column flex-xl-row justify-content-between align-items-center mb-5" style={{ minHeight: "60px" }}>
 
         {/* LEFT: Tabs */}
@@ -65,10 +65,10 @@ export default function ConciergePage() {
           ))}
         </div>
 
-     
+
         <div className="d-flex flex-wrap flex-md-nowrap align-items-center justify-content-center justify-content-xl-end gap-3 w-100 w-xl-auto">
-          
-          <div className="d-flex shadow-sm flex-nowrap" style={{ borderRadius: "8px", overflow: "hidden" }}>
+
+          <div className="d-flex shadow-sm flex-nowrap gap-3" style={{ borderRadius: "8px", overflow: "hidden" }}>
             {/* Search Input Linked to State */}
             <div className="position-relative">
               <input
@@ -77,34 +77,34 @@ export default function ConciergePage() {
                 placeholder="Search here..."
                 value={searchTerm} // Value bind ki
                 onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }} // Change handler
-                style={{ 
-                  width: "calc(100vw - 220px)", 
-                  maxWidth: "380px", 
-                  minWidth: "150px", 
-                  height: "45px", 
-                  fontSize: "14px", 
-                  backgroundColor: "#F4F4F4", 
-                  borderRadius: "8px 0 0 8px", 
-                  boxShadow: "none" 
+                style={{
+                  width: "calc(100vw - 220px)",
+                  maxWidth: "380px",
+                  minWidth: "150px",
+                  height: "45px",
+                  fontSize: "14px",
+                  backgroundColor: "#F4F4F4",
+                  borderRadius: "8px 0 0 8px",
+                  boxShadow: "none"
                 }}
               />
               <Search className="position-absolute top-50 end-0 translate-middle-y me-3 text-muted" size={18} />
             </div>
 
             {/* Sort */}
-            <div className="position-relative bg-white px-2 d-flex align-items-center border-start flex-nowrap" style={{ height: "45px", borderRadius: "0 8px 8px 0", minWidth: "max-content" }}>
+            <div className="position-relative bg-white px-2 d-flex align-items-center rounded-4 me-2 border-start flex-nowrap" style={{ height: "45px", borderRadius: "0 8px 8px 0", minWidth: "max-content" }}>
               <span className="text-muted d-none d-sm-inline ms-1" style={{ fontSize: "14px", whiteSpace: "nowrap" }}>Sort by </span>
               <select
                 className="form-select border-0 fw-bold py-0 ps-1 pe-4"
                 value={sortOrder}
                 onChange={(e) => { setSortOrder(e.target.value); setCurrentPage(1); }}
-                style={{ 
-                  fontSize: "14px", 
-                  cursor: 'pointer', 
-                  appearance: 'none', 
-                  background: 'none', 
-                  width: 'auto', 
-                  color: '#333', 
+                style={{
+                  fontSize: "14px",
+                  cursor: 'pointer',
+                  appearance: 'none',
+                  background: 'none',
+                  width: 'auto',
+                  color: '#333',
                   boxShadow: "none"
                 }}
               >
@@ -119,11 +119,11 @@ export default function ConciergePage() {
           {/* Add Button */}
           <button
             className="btn text-white px-4 rounded-2 shadow-sm border-0 d-flex align-items-center justify-content-center"
-            style={{ 
-              backgroundColor: "#EB5757", 
-              fontWeight: "600", 
-              height: "45px", 
-              fontSize: "14px", 
+            style={{
+              backgroundColor: "#EB5757",
+              fontWeight: "600",
+              height: "45px",
+              fontSize: "14px",
               whiteSpace: "nowrap",
               minWidth: "max-content"
             }}
@@ -143,20 +143,51 @@ export default function ConciergePage() {
                   <img src={staff.image || "https://via.placeholder.com/150"} className="w-100 h-100" style={{ objectFit: 'cover' }} alt={staff.name} />
                 </div>
               </div>
-              <h5 className="fw-bold mb-1" style={{ fontSize: '18px' }}>{staff.name}</h5>
-              <p className="text-muted small mb-4">{staff.empId || staff.id}</p>
-              <div className="d-flex justify-content-center gap-2 my-3">
-                <button className="btn p-0 border-0 d-flex align-items-center justify-content-center rounded-circle" style={{ backgroundColor: "#E8F5E9", color: "#27AE60", width: "45px", height: "45px" }}><Mail size={20} /></button>
-                <button className="btn p-0 border-0 d-flex align-items-center justify-content-center rounded-circle" style={{ backgroundColor: "#E8F5E9", color: "#27AE60", width: "45px", height: "45px" }}><Phone size={20} /></button>
-                <button className="btn p-0 border-0 d-flex align-items-center justify-content-center rounded-circle" style={{ backgroundColor: "#F2F2F2", color: "#BDBDBD", width: "45px", height: "45px" }}><MoreHorizontal size={20} /></button>
+              <h5 className="fw-bold mb-1 fs-2">{staff.name}</h5>
+              <p className="text-muted small mb-4 fs-4">{staff.empId || staff.id}</p>
+              <div className="d-flex justify-content-center gap-3 my-3">
+
+                <button
+                  className="btn d-flex align-items-center justify-content-center rounded-circle"
+                  style={{
+                    width: "60px",
+                    height: "60px",
+                    backgroundColor: "#E6F4EA"
+                  }}
+                >
+                  <Mail size={24} color="#28a745" />
+                </button>
+
+                <button
+                  className="btn d-flex align-items-center justify-content-center rounded-circle"
+                  style={{
+                    width: "60px",
+                    height: "60px",
+                    backgroundColor: "#E6F4EA"
+                  }}
+                >
+                  <Phone size={24} color="#28a745" />
+                </button>
+
+                <button
+                  className="btn d-flex align-items-center justify-content-center rounded-circle"
+                  style={{
+                    width: "60px",
+                    height: "60px",
+                    backgroundColor: "#E9ECEF"
+                  }}
+                >
+                  <MoreHorizontal size={24} color="#6c757d" />
+                </button>
+
               </div>
               <div className="d-flex justify-content-between align-items-center mt-4 mb-3 px-1" style={{ fontSize: '11px' }}>
-                <span className="text-muted">Joined on {staff.joinDate}</span>
+                <span className="text-muted fs-5">Joined on {staff.joinDate}</span>
                 <span className="fw-bold" style={{ color: staff.status === 'Active' ? '#27AE60' : '#EB5757' }}>● {staff.status}</span>
               </div>
               <div className="mt-2 text-start pt-3 border-top" style={{ borderColor: '#f8f9fa' }}>
-                <p className="fw-bold text-muted mb-2" style={{ fontSize: '10px', letterSpacing: "0.5px" }}>JOB DESK</p>
-                <p className="text-muted m-0" style={{ fontSize: '11px', lineHeight: '1.5', height: "50px", overflow: "hidden" }}>
+                <p className="fw-bold text-muted mb-2" style={{ fontSize: '10px', letterSpacing: "0.5px" }}>JOB DESC</p>
+                <p className="text-dark m-0 fs-5 fw-normal"   >
                   {staff.jobDescription}
                 </p>
               </div>
