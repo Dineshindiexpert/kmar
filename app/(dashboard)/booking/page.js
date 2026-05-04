@@ -1,210 +1,171 @@
 "use client";
 
 import { useState } from "react";
-import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
+import { BiTrash } from "react-icons/bi";
 
 const Booking = () => {
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
-    phone: "",
+    bookingRef: "",
+    company: "",
     checkIn: "",
     checkOut: "",
-    guests: 1,
-    roomType: "deluxe",
-    notes: ""
+    nights: "",
+    ratePlan: "",
+    notes: "",
+    rooms: [
+      {
+        roomType: "",
+        guests: [{ firstName: "", lastName: "" }]
+      }
+    ]
   });
 
+  // Generic handler
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Room change
+  const handleRoomChange = (index, value) => {
+    const updatedRooms = [...formData.rooms];
+    updatedRooms[index].roomType = value;
+    setFormData({ ...formData, rooms: updatedRooms });
+  };
+
+  // Guest change
+  const handleGuestChange = (roomIndex, guestIndex, field, value) => {
+    const updatedRooms = [...formData.rooms];
+    updatedRooms[roomIndex].guests[guestIndex][field] = value;
+    setFormData({ ...formData, rooms: updatedRooms });
+  };
+
+  // Add room
+  const addRoom = () => {
+    setFormData((prev) => ({
+      ...prev,
+      rooms: [
+        ...prev.rooms,
+        { roomType: "", guests: [{ firstName: "", lastName: "" }] }
+      ]
+    }));
+  };
+
+  // Remove room
+  const removeRoom = (index) => {
+    const updated = formData.rooms.filter((_, i) => i !== index);
+    setFormData({ ...formData, rooms: updated });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Booking Data:", formData);
+    console.log(formData);
     alert("Booking Submitted Successfully!");
   };
 
   return (
-    <div className="py-5" style={{ background: "#f8f9fa", minHeight: "100vh" }}>
-      <div>
-        <Row className="justify-content-center">
-          <Col md={8} lg={7}>
-            <Card
-              className="border-0 shadow-lg rounded-4 p-4"
-              style={{ background: "#fff" }}
-            >
-              {/* Header */}
-              <div className="text-center mb-4">
-                <h2 className="fw-bold mb-1">Hotel Room Booking</h2>
-                <p className="text-muted">
-                  Fill details to reserve your stay
-                </p>
-              </div>
+    <form onSubmit={handleSubmit} className="py-4 booking-card">
 
-              <Form onSubmit={handleSubmit}>
-
-                {/* Name */}
-                <Form.Group className="mb-3">
-                  <Form.Label className="fw-semibold">Full Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="name"
-                    placeholder="Enter your full name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="py-2 rounded-3"
-                    required
-                  />
-                </Form.Group>
-
-                {/* Email + Phone */}
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label className="fw-semibold">Email</Form.Label>
-                      <Form.Control
-                        type="email"
-                        name="email"
-                        placeholder="you@example.com"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="py-2 rounded-3"
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label className="fw-semibold">Phone</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="phone"
-                        placeholder="Mobile number"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        className="py-2 rounded-3"
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-
-                {/* Dates */}
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label className="fw-semibold">
-                        Check-In
-                      </Form.Label>
-                      <Form.Control
-                        type="date"
-                        name="checkIn"
-                        value={formData.checkIn}
-                        onChange={handleChange}
-                        className="py-2 rounded-3"
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label className="fw-semibold">
-                        Check-Out
-                      </Form.Label>
-                      <Form.Control
-                        type="date"
-                        name="checkOut"
-                        value={formData.checkOut}
-                        onChange={handleChange}
-                        className="py-2 rounded-3"
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-
-                {/* Guests + Room */}
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label className="fw-semibold">
-                        Guests
-                      </Form.Label>
-                      <Form.Control
-                        type="number"
-                        name="guests"
-                        min={1}
-                        value={formData.guests}
-                        onChange={handleChange}
-                        className="py-2 rounded-3"
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label className="fw-semibold">
-                        Room Type
-                      </Form.Label>
-                      <Form.Select
-                        name="roomType"
-                        value={formData.roomType}
-                        onChange={handleChange}
-                        className="py-2 rounded-3"
-                      >
-                        <option value="deluxe">Deluxe Room</option>
-                        <option value="superior">Superior Room</option>
-                        <option value="suite">Suite</option>
-                        <option value="presidential">
-                          Presidential Suite
-                        </option>
-                      </Form.Select>
-                    </Form.Group>
-                  </Col>
-                </Row>
-
-                {/* Notes */}
-                <Form.Group className="mb-4">
-                  <Form.Label className="fw-semibold">
-                    Special Requests
-                  </Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    name="notes"
-                    placeholder="Extra bed, view preference, etc..."
-                    value={formData.notes}
-                    onChange={handleChange}
-                    className="rounded-3"
-                  />
-                </Form.Group>
-
-                {/* Button */}
-                <Button
-                  type="submit"
-                  className="w-100 py-2 rounded-3 fw-semibold"
-                  style={{
-                    background: "#DC3545",
-                    border: "none",
-                    fontSize: "16px"
-                  }}
-                >
-                  Confirm Booking
-                </Button>
-
-              </Form>
-            </Card>
-          </Col>
-        </Row>
+      {/* HEADER */}
+      <div className="d-flex justify-content-end align-items-center mb-4">
+        
+        <button type="reset" className="btn btn-outline-danger btn-sm"><BiTrash size={30} /></button>
       </div>
-    </div>
+
+      {/* BOOKING INFO */}
+      <div className="card p-4 mb-4 shadow-sm rounded-4">
+        <h6 className="fw-semibold mb-3 fs-2">Booking Info</h6>
+        <div className="d-flex gap-3 flex-wrap">
+          <input name="email" value={formData.email} onChange={handleChange} className="form-control col py-3" placeholder="Client Email" />
+          <input name="bookingRef" value={formData.bookingRef} onChange={handleChange} className="form-control col py-3" placeholder="Booking Ref" />
+          <input name="company" value={formData.company} onChange={handleChange} className="form-control col py-3" placeholder="Company" />
+        </div>
+      </div>
+
+      {/* STAY DETAILS */}
+      <div className="card p-4 mb-4 shadow-sm rounded-4">
+        <h6 className="fw-semibold mb-3 fs-2">Stay Details</h6>
+        <div className="d-flex gap-3 flex-wrap">
+          <input type="date" name="checkIn" value={formData.checkIn} onChange={handleChange} className="form-control col py-3" />
+          <input type="date" name="checkOut" value={formData.checkOut} onChange={handleChange} className="form-control col py-3" />
+          <input name="nights" value={formData.nights} onChange={handleChange} className="form-control col py-3" placeholder="Nights" />
+          <input name="ratePlan" value={formData.ratePlan} onChange={handleChange} className="form-control col py-3" placeholder="Rate Plan" />
+        </div>
+
+        <textarea
+          name="notes"
+          value={formData.notes}
+          onChange={handleChange}
+          className="form-control mt-3"
+          placeholder="Special request..."
+        />
+      </div>
+
+      {/* ROOMS */}
+      <div className="card p-4 shadow-sm rounded-4">
+        <div className="d-flex justify-content-between mb-3">
+          <h6 className="fw-semibold fs-2">Rooms & Guests</h6>
+          <button type="button" onClick={addRoom} className="btn btn-danger btn-lg text-white">
+            + Add Room
+          </button>
+        </div>
+
+        {formData.rooms.map((room, roomIndex) => (
+          <div key={roomIndex} className="border rounded-3 p-3 mb-3 bg-light">
+
+            {/* Room Type */}
+            <div className="mb-3">
+              <input
+                className="form-control py-3"
+                placeholder="Room Type"
+                value={room.roomType}
+                onChange={(e) => handleRoomChange(roomIndex, e.target.value)}
+              />
+            </div>
+
+            {/* Guests */}
+            {room.guests.map((guest, guestIndex) => (
+              <div key={guestIndex} className="row g-2 mb-2">
+                <div className="col-md-5">
+                  <input
+                    className="form-control py-3"
+                    placeholder="First Name"
+                    value={guest.firstName}
+                    onChange={(e) =>
+                      handleGuestChange(roomIndex, guestIndex, "firstName", e.target.value)
+                    }
+                  />
+                </div>
+                <div className="col-md-5">
+                  <input
+                    className="form-control py-3"
+                    placeholder="Last Name"
+                    value={guest.lastName}
+                    onChange={(e) =>
+                      handleGuestChange(roomIndex, guestIndex, "lastName", e.target.value)
+                    }
+                  />
+                </div>
+                <div className="col-md-2 ">
+                  <button
+                    type="button"
+                    onClick={() => removeRoom(roomIndex)}
+                    className="btn btn-outline-danger w-100 py-3"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <button type="submit" className="btn btn-danger mt-4 text-white px-5 py-3">
+        Submit Booking
+      </button>
+    </form>
   );
 };
 

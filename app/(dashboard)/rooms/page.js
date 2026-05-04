@@ -12,7 +12,7 @@ const Rooms = () => {
   const [status, setStatus] = useState('ALL');
   const [sort, setSort] = useState('NEWEST');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 8;
 
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
@@ -44,104 +44,77 @@ const Rooms = () => {
     <div className='px-4 fs-5'>
 
       {/* HEADER */}
-      <div className="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center gap-3">
+      <div className="d-flex flex-column flex-lg-row justify-content-between align-items-start gap-3">
 
-        {/* LEFT SIDE - FILTER BUTTONS */}
-        <div className="d-flex flex-nowrap gap-4">
-
-          <Button
-            variant={status === "ALL" ? "secondary" : "outline-secondary"}
-            size='md'
-            onClick={() => setStatus("ALL")}
-            className="p-3"
-          >
-            All
-          </Button>
-
-          <Button
-           variant={status === "BOOKED" ? "secondary" : "outline-secondary"}
-            size='md'
-            onClick={() => setStatus("BOOKED")}
-            className="px-3 py-2"
-          >
-            Booked
-          </Button>
-
-          <Button
-           variant={status === "AVAILABLE" ? "secondary" : "outline-secondary"}
-            size='md'
-            onClick={() => setStatus("AVAILABLE")}
-            className="px-3 py-2"
-          >
-            Available
-          </Button>
-
+        {/* LEFT SIDE */}
+        <div className="d-flex  gap-3 mt-2   justify-content-sm-between">
+          {["ALL", "BOOKED", "AVAILABLE"].map((item) => (
+            <Button
+              key={item}
+              variant={status === item ? "secondary" : "outline-secondary"}
+              onClick={() => setStatus(item)}
+              className="px-3 py-2"
+            >
+              {item.charAt(0) + item.slice(1).toLowerCase()}
+            </Button>
+          ))}
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="d-flex flex-column flex-md-row align-items-stretch align-items-md-center gap-2 w-100 w-lg-auto justify-content-lg-end">
-          <div className='d-flex justify-content-between' >
+        <div className="d-flex flex-column flex-md-row justify-content-end align-items-stretch align-items-md-center gap-3 w-100 w-lg-auto">
+          <div className="d-flex justify-content-between gap-3">
             {/* SEARCH */}
-            <InputGroup
-              className="rounded-4 overflow-hidden w-100 w-sm-50 me-4 "
-              style={{ maxWidth: "350px", minHeight: "45px" }}
-            >
-              <Form.Control
-                className="border-0 text-secondary px-3 py-3"
-                style={{ background: "#F4F4F4" }}
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search here..."
-              />
-
-              <InputGroup.Text
-                className="border-0 pe-3"
-                style={{ background: "#F4F4F4" }}
+            <div>
+              <InputGroup
+                className="rounded-4 overflow-hidden"
+                style={{ maxWidth: "300px" }}
               >
-                <img src="./assets/icons/search.svg" alt="search" width={18} />
-              </InputGroup.Text>
-            </InputGroup>
-            {/* SORT */}
-            <Form.Select
-              className="rounded-4 border-secondary py-2 py-md-3 me-3 w-sm-100"
-              style={{ width: "140px" }}
-              value={sort}
-              onChange={(e) => setSort(e.target.value)}
-            >
-              <option value="NEWEST">Newest</option>
-              <option value="OLDEST">Oldest</option>
-              <option value="POPULAR">Popular</option>
-              <option value="RANDOM">Random</option>
-            </Form.Select>
+                <Form.Control
+                  className="border-0 text-secondary px-3"
+                  style={{ background: "#F4F4F4" }}
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search here..."
+                />
+                <InputGroup.Text className="border-0" style={{ background: "#F4F4F4" }}>
+                  <img src="./assets/icons/search.svg" alt="search" width={18} />
+                </InputGroup.Text>
+              </InputGroup>
+            </div>
+
+            <div>
+
+              {/* SORT */}
+              <Form.Select
+                className="rounded-4 border-secondary"
+                style={{ maxWidth: "150px" }}
+                value={sort}
+                onChange={(e) => setSort(e.target.value)}
+              >
+                <option value="NEWEST">Newest</option>
+                <option value="OLDEST">Oldest</option>
+                <option value="POPULAR">Popular</option>
+                <option value="RANDOM">Random</option>
+              </Form.Select>
+            </div>
           </div>
 
-
-
-
-
           {/* ICONS */}
-          <div className="d-flex gap-2 justify-content-between">
+          <div className="d-flex justify-content-between gap-2 align-items-center">
             <Button
-              className="border-0 rounded-4 d-flex  mt-2 align-items-center justify-content-center p-2"
-              style={{ background: "#F4F4F4", width: "60px", height: "60px" }}
+              className="border-0 rounded-4 d-flex align-items-center justify-content-center"
+              style={{ background: "#F4F4F4", width: "50px", height: "50px" }}
             >
-              <BiListUl className="text-secondary" size={28} />
+              <BiListUl className="text-secondary" size={24} />
             </Button>
 
-            <Button className=" bg-transparent p-2 border-0">
-              <img src="./assets/icons/menusection.png" width={60} alt="menu" />
+            <Button className="bg-transparent p-0 border-0">
+              <img src="./assets/icons/menusection.png" width={50} alt="menu" />
             </Button>
           </div>
 
           {/* ADD BUTTON */}
-          <Button
-            className="rounded-4 border-0 bg-danger text-white px-4 py-3"
-            style={{
-              whiteSpace: "nowrap",
-              fontSize: "16px",
-              fontWeight: 500
-            }}
-          >
+          <Button className="rounded-4 border-0 bg-danger text-white">
             Add New Room
           </Button>
 
@@ -225,7 +198,7 @@ const Rooms = () => {
             </Card>
           </div>
         ))}
-        
+
       </div>
       <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 my-4">
 

@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { Search, Calendar, ChevronDown } from 'lucide-react';
-import { Badge, Form,InputGroup } from 'react-bootstrap';
+import { Badge, Form } from 'react-bootstrap';
 import { usePathname } from 'next/navigation';
 
 const DashboardHeader = () => {
@@ -14,7 +14,7 @@ const DashboardHeader = () => {
         if (pathname.startsWith("/guest/")) return "Guest Details";
         if (pathname === "/rooms") return "Rooms";
         if (pathname === "/guest") return "Guest";
-        if (pathname === "/concierge") return "Concierge";
+        if (pathname === "/staff") return "Staff";
         if (pathname === "/booking") return "Bookings";
         if (pathname === "/client") return "client list";
         return "Dashboard";
@@ -28,7 +28,7 @@ const DashboardHeader = () => {
 
     return (
         <header className="navbar bg-light py-3 px-3 px-md-4 d-flex justify-content-between align-items-center">
-
+            
             {/* LEFT: Title Section */}
             <div className="flex-grow-1">
                 <h2 className="fw-bold fs-1 fs-md-3 mb-0">{getTitle()}</h2>
@@ -39,10 +39,12 @@ const DashboardHeader = () => {
 
             {/* RIGHT: Actions Section */}
             <div className="d-flex align-items-center gap-2 gap-md-3">
-
+                
                 {/* Icons - for the mobiles also  */}
-                <div className="d-flex gap-2 gap-md-3 text-secondary align-items-cente ms-4 me-3">
-                    
+                <div className="d-flex gap-2 gap-md-3 text-secondary align-items-center me-3">
+                    <div className="p-2 hover-bg-light cursor-pointer">
+                        <Search size={30} />
+                    </div>
 
                     <div className="position-relative p-2">
                         <img src="./assets/icons/notification.svg" width={30} alt="notif" />
@@ -83,8 +85,8 @@ const DashboardHeader = () => {
                 </div>
 
                 {/* Language - Fixed width to prevent jumping */}
-                <Form.Select
-                    size="lg"
+                <Form.Select 
+                    size="lg" 
                     className="border-0  border-secondary bg-transparent fw-semibold"
                     style={{ width: "auto", minWidth: "65px", cursor: "pointer" }}
                 >
