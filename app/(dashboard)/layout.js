@@ -52,7 +52,7 @@ const Layout = ({ children }) => {
                     md={9}
                     lg={9}
                     xl={10}
-                    className="py-3 ms-0 px-5 bg-light"
+                    className="py-3 ms-0 px-4 bg-light"
                 >
                     <Header />
                     {children}
