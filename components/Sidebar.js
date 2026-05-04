@@ -1,13 +1,31 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { BsHeartFill } from "react-icons/bs";
+import { Button } from "react-bootstrap";
+import { BsBoxArrowRight, BsHeartFill } from "react-icons/bs";
 import { useRouter, usePathname } from "next/navigation";
 import ProgressCircle from "./Profileprogress";
+import { apiService } from "@/app/api/endpoints";
 
 const Sidebar = ({ isOpen = true, onClose }) => {
     const router = useRouter();
     const pathname = usePathname();
+
+    const [user, setUser] = useState(null);
+    useEffect(() => {
+        const storedUser = JSON.parse(localStorage.getItem("user"));
+
+        if (storedUser?.id) {
+            apiService.getUserById(storedUser.id)
+                .then((res) => {
+                    setUser(res.data);
+                })
+                .catch((err) => {
+                    console.error("Error fetching user:", err);
+                });
+        }
+    }, []);
+
 
     const menuItems = [
         { id: 1, name: "Dashboard", icon: "/assets/icons/dashboard.svg", path: "/dashboard" },
@@ -48,11 +66,11 @@ const Sidebar = ({ isOpen = true, onClose }) => {
                 </div>
 
                 {/* PROFILE */}
-                <ProgressCircle progress={100} size={160} image="/assets/images/profile.jpg" />
+                <ProgressCircle progress={100} size={160} image={user?.image || "/assets/images/profile.jpg"} />
 
                 <div className="mt-3">
-                    <p className="fs-4 fw-bold ms-3 mb-0">Alex Geovanny</p>
-                    <p className="fs-6 text-secondary ms-3">alexgeov@mail.com</p>
+                    <p className="fs-4 fw-bold ms-3 mb-0">{user?.Name || "Alex Geovanny"}</p>
+                    <p className="fs-6 text-secondary ms-3">{user?.emailid || "alexgeov@mail.com"}</p>
                 </div>
 
                 {/* MENU */}
@@ -81,6 +99,18 @@ const Sidebar = ({ isOpen = true, onClose }) => {
                             </li>
                         );
                     })}
+                    <li>
+                        <Button className="w-100 mt-4" variant="outline-danger"
+                            onClick={() => {
+                                localStorage.removeItem("token");
+                                document.cookie = "token=; path=/; max-age=0; SameSite=Lax";
+                                router.push("/signin");
+                            }}
+                        >
+                            <BsBoxArrowRight className="me-2 text-danger" />
+                            Sign Out
+                        </Button>
+                    </li>
                 </ul>
 
                 {/* FOOTER */}
