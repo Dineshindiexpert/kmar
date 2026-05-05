@@ -77,7 +77,7 @@ const Rooms = () => {
                   placeholder="Search here..."
                 />
                 <InputGroup.Text className="border-0" style={{ background: "#F4F4F4" }}>
-                  <img src="./assets/icons/search.svg" alt="search" width={18} />
+                  <img src="./assets/icons/Search.svg" alt="search" width={18} />
                 </InputGroup.Text>
               </InputGroup>
             </div>
