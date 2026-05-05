@@ -24,9 +24,9 @@ const Sidebar = ({ isOpen = true, onClose }) => {
 
     const menuItems = [
         { id: 1, name: "Dashboard", icon: "/assets/icons/dashboard.svg", path: "/dashboard" },
-        { id: 2, name: "Booking", icon: "/assets/icons/Booking.svg", path: "/booking" },
+        { id: 2, name: "Booking", icon: "/assets/icons/booking.svg", path: "/booking" },
         { id: 3, name: "Guest", icon: "/assets/icons/Guest.svg", path: "/guest" },
-        { id: 4, name: "Staff", icon: "/assets/icons/concerege.svg", path: "/staff" },
+        { id: 4, name: "Staff", icon: "/assets/icons/Concerege.svg", path: "/staff" },
         { id: 5, name: "Rooms", icon: "/assets/icons/Rooms.svg", path: "/rooms" },
         { id: 6, name: "Settings", icon: "/assets/icons/Setting.svg", path: "/settings" },
     ];
