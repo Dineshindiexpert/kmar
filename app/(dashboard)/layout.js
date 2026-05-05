@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
 
                 {/*  MOBILE TOP BAR */}
                 <div className="d-md-none p-2 bg-white border-bottom d-flex justify-content-between align-items-center">
-                    <h5 className="m-0 fs-1 align-item-center"><span><img src="./assets/icons/logo.svg" className="me-2" width={35} alt="profile pic" /></span>Kamrr</h5>
+                    <h5 className="m-0 fs-1 align-item-center"><span><img src="./assets/icons/Logo.svg" className="me-2" width={35} alt="profile pic" /></span>Kamrr</h5>
 
                     <BsList size={30} className="me-2" onClick={() => setShowSidebar(true)} />
                 </div>
