@@ -47,7 +47,7 @@ const DashboardHeader = () => {
                     </div>
 
                     <div className="position-relative p-2">
-                        <img src="./assets/icons/notification.svg" width={30} alt="notif" />
+                        <img src="./assets/icons/Notification.svg" width={30} alt="notif" />
                         <Badge
                             bg="danger"
                             className="position-absolute top-0 start-100 translate-middle rounded-circle"
